@@ -1,0 +1,31 @@
+body {
+    font-family: 'Arial', sans-serif, bold;
+    background-color: #0b0b0b;
+  }
+  
+  button {
+    background-color: #1e10e2; 
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    margin: 10px 0;
+  }
+  
+  p {
+    color: rgb(244, 238, 238); /* Change the color to your desired value */
+  }
+  

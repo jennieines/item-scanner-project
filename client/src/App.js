@@ -9,8 +9,8 @@ function App() {
       <div>
         <Routes>
           {/* Define routes for your components */}
-          <Route path="/home" component={Home} />
-          <Route path="/saved-items" component={SavedItems} />
+          <Route path="/Home" component={Home} />
+          <Route path="/SavedItems" component={SavedItems} />
         </Routes>
       </div>
     </Router>

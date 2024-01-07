@@ -18,11 +18,21 @@ router.get('/scan', (req, res) => {
   // This is where you would communicate with your database or external APIs
   // Replace the placeholder with the actual logic to retrieve scanned items
 
-  // Example: Sending dummy scanned items
-  res.json([
-    { id: 1, name: 'Scanned Item A', price: 25 },
-    { id: 2, name: 'Scanned Item B', price: 30 },
-  ]);
+  // Sending fake data to test before using googleAPI
+  const fakeData = [
+    {
+      name: "Coffee Cup",
+      price: 7.99,
+      image_url: ".....",
+      item_url: "......"
+    },
+    {
+      name: "Lawnmower",
+      price: 799.99,
+      image_url: ".....",
+      item_url: "......"
+    },
+  ]
 });
 
 // Add more item routes as needed

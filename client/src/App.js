@@ -9,8 +9,8 @@ function App() {
       <div>
         <Routes>
           {/* Define routes for your components */}
-          <Route path="/Home" component={Home} />
-          <Route path="/SavedItems" component={SavedItems} />
+          <Route path="/" element={<Home/>} />
+          <Route path="/SavedItems" element={<SavedItems/>} />
         </Routes>
       </div>
     </Router>

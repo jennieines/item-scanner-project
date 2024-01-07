@@ -4,7 +4,7 @@ body {
   }
   
   button {
-    background-color: #1e10e2; 
+    background-color: #1e10e2;
     border: none;
     color: white;
     padding: 10px 20px;
@@ -13,8 +13,12 @@ body {
     display: inline-block;
     font-size: 16px;
     margin: 4px 2px;
-    cursor: pointer;
+    cursor: pointer; 
   }
+  
+  button:hover {
+    cursor: url('/public/camera.png'), alias;
+  }   
   
   ul {
     list-style-type: none;
@@ -27,5 +31,9 @@ body {
   
   p {
     color: rgb(244, 238, 238); /* Change the color to your desired value */
+  }
+  
+  h2 {
+    color: rgb(255, 255, 255);
   }
   

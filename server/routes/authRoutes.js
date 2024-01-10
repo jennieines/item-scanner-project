@@ -1,17 +1,28 @@
+// authRoutes.js
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+const db = require('./db'); // Connect to PostgreSQL database
 
-// Define routes for authentication
-router.post('/login', (req, res) => {
-  // Implement your login logic here
-  res.send('Login route');
+// User login route
+router.post('/login', async (req, res) => {
+  try {
+    // Implement user authentication logic
+    const { username, password } = req.body;
+    // Validate user credentials and generate JWT token
+    // Example: Check username and password against database
+    const user = await db.query('SELECT * FROM users WHERE username = $1 AND password = $2', [username, password]);
+    if (user.rows.length === 1) {
+      const token = jwt.sign({ username }, 'secret_key');
+      res.json({ token });
+    } else {
+      res.status(401).json({ error: 'Invalid credentials' });
+    }
+  } catch (error) {
+    console.error('Error during login:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
-router.post('/register', (req, res) => {
-  // Implement your registration logic here
-  res.send('Registration route');
-});
+// Other authentication-related routes can be added
 
-// Add more authentication routes as needed
-
-module.exports = router;

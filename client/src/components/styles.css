@@ -17,8 +17,8 @@ body {
   }
   
   button:hover {
-    cursor: url('/public/camera.png'), alias;
-  }   
+    cursor: url('../../public/camera.png'), alias;
+  }    
   
   ul {
     list-style-type: none;

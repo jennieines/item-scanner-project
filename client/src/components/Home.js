@@ -5,6 +5,10 @@ import './styles.css';
 const Home = () => {
   const [loading, setLoading] = useState(false);
   const [scannedItems, setScannedItems] = useState([]);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const scanItem = async () => {
     try {
@@ -42,10 +46,35 @@ const Home = () => {
     }
   };
 
+  const logIn = async () => {
+    try {
+      //const response = await axios.post('/api/auth/login', { username, password });
+      // Handle successful login, e.g., store the token in state or local storage
+      setShowLogin(false); // Close the login form after successful login
+      //console.log('You are in!', response.data);
+      alert('You are in!')
+    } catch (error) {
+      console.error('Oh no.. your login.. its broken', error.message);
+    }
+  };
+
+  const handleLoginClick = () => {
+    setShowLogin(true);
+  };
+
+  const Register = async () => {
+    try {
+      // Your registration logic
+      // This could be similar to the login logic, sending a request to register a new user
+    } catch (error) {
+      console.error('Registration failed:', error.message);
+    }
+  };
+  
   return (
     <div>
-      <p>Welcome! Try Scanning Something!! :3</p>
-      <h2>Home Page</h2>
+      <h1>Welcome! Try Scanning Something!! :3</h1>
+      <p>DO IT NOW... please</p>
       <button onClick={scanItem} disabled={loading}>
         {loading ? 'Scanning...' : 'Scan Item'}
       </button>
@@ -55,8 +84,57 @@ const Home = () => {
           <li key={item.id}>{item.name} - ${item.price}</li>
         ))}
       </ul>
-    </div>
-  );
+      <h2>Like what you see? Save it!</h2>
+      <p>You know you want too..</p>
+      <button onClick={handleLoginClick} id="logIn">Login</button>
+      <button onClick={() => setShowRegister(true)} id="register">Register</button>
+
+{/* Render the login form when showLogin is true */}
+{showLogin && (
+  <div>
+    <h2>Welcome Back!</h2>
+    <p>I missed you</p>
+    <p>call me?</p>
+    <label>
+      Username:
+      <input type="text" placeholder="Enter your username" value={username} onChange={(e) => setUsername(e.target.value)} />
+    </label>
+    <label>
+      Password:
+      <input type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} />
+    </label>
+    <button onClick={logIn}>Login</button>
+  </div>
+)}
+
+{/* Render the register form when showRegister is true */}
+{showRegister && (
+        <div>
+          <h4>Register Here!</h4>
+          {/* Your registration form */}
+          <label>
+            Username:
+            <input
+              type="text"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </label>
+          <label>
+            Password:
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
+          <button onClick={Register}>Register</button>
+</div>
+)}
+</div>
+);
 };
 
 export default Home;

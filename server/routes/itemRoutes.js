@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('./db'); // Connect to PostgreSQL database
+const database = require('../database'); // Connect to PostgreSQL database
 
 // Define routes for items
 router.get('/', (req, res) => {
@@ -33,7 +33,10 @@ router.get('/scan', (req, res) => {
       image_url: ".....",
       item_url: "......"
     },
-  ]
+  ];
+
+  // Sending the fake data as a response
+  res.json(fakeData);
 });
 
 // Add more item routes as needed

@@ -8,7 +8,6 @@ function App() {
     <Router>
       <div>
         <Routes>
-          {/* Define routes for your components */}
           <Route path="/" element={<Home/>} />
           <Route path="/SavedItems" element={<SavedItems/>} />
         </Routes>

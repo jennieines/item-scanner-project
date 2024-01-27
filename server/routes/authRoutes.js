@@ -1,18 +1,19 @@
+// authRoutes.js
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const database = require('../database'); // Connect to PostgreSQL database
+const database = require('../database'); 
 
 // User login route
 router.post('/login', async (req, res) => {
   try {
-    // Implement user authentication logic
     const { username, password } = req.body;
+    
     // Validate user credentials and generate JWT token
-    // Example: Check username and password against database
     const user = await database.query('SELECT * FROM users WHERE username = $1 AND password = $2', [username, password]);
     if (user.rows.length === 1) {
-      const token = jwt.sign({ username }, 'secret_key');
+      const secretKey = '343270'; // You can change this to your desired secret key
+      const token = jwt.sign({ username }, secretKey);
       res.json({ token });
     } else {
       res.status(401).json({ error: 'Invalid credentials' });
@@ -23,6 +24,29 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Other authentication-related routes can be added
+// User registration route
+router.post('/register', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    
+    // Check if the username already exists
+    const existingUser = await database.query('SELECT * FROM users WHERE username = $1', [username]);
+    if (existingUser.rows.length > 0) {
+      return res.status(400).json({ error: 'Username already exists' });
+    }
+
+    // If the username is unique, insert the new user into the database
+    await database.query('INSERT INTO users (username, password) VALUES ($1, $2)', [username, password]);
+
+    // Optionally, generate a JWT token and send it back to the client
+    const secretKey = '343270'; // You can change this to your desired secret key
+    const token = jwt.sign({ username }, secretKey);
+    
+    res.status(200).json({ message: 'User registered successfully', token });
+  } catch (error) {
+    console.error('Error during registration:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 module.exports = router;

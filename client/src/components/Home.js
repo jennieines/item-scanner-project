@@ -1,8 +1,6 @@
-// Home.js
-
 import React, { useState } from 'react';
-import axios from 'axios';
 import './styles.css';
+import axios from 'axios';
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
@@ -16,28 +14,14 @@ const Home = () => {
   const scanItem = async () => {
     try {
       setLoading(true);
-
-      // Open a file input dialog to let the user choose between file upload and camera access
+      
       const input = document.createElement('input');
       input.type = 'file';
       input.accept = 'image/*';
 
-      // Handle the selected file or camera capture
       input.addEventListener('change', async (event) => {
         const file = event.target.files[0];
-
-        if (file) {
-          // File upload logic (you can send the file to the server here)
-          const formData = new FormData();
-          formData.append('image', file);
-
-          const response = await axios.post('/items/upload', formData);
-          console.log(response.data); // Adjust this part as needed
-        } else {
-          // Camera capture logic (you can use a library like react-camera for this)
-          // This part may require additional setup and libraries
-          console.log('Capture from camera');
-        }
+        console.log('Selected file:', file); // Placeholder for actual file handling logic
 
         setLoading(false);
       });
@@ -51,18 +35,19 @@ const Home = () => {
 
   const logIn = async () => {
     try {
-      if (!loginUsername || !loginPassword) {
-        alert('Please enter both username and password.');
-        return;
-      }
+      const response = await axios.post('http://localhost:3001/login', {
+        username: loginUsername,
+        password: loginPassword
+      });
 
-      // Your login logic
-      // const response = await axios.post('/api/auth/login', { loginUsername, loginPassword });
-      // Handle successful login, e.g., store the token in state or local storage
-      setShowLogin(false);
-      alert('You are in!');
+      if (response.status === 200) {
+        alert('Login successful!');
+      } else {
+        alert('Login failed. Invalid credentials.');
+      }
     } catch (error) {
-      console.error('Oh no.. your login.. its broken', error.message);
+      console.error('Error during login:', error.message);
+      alert('Error during login. Please try again.');
     }
   };
 
@@ -71,95 +56,95 @@ const Home = () => {
     setShowRegister(false);
   };
 
-  const register = async () => {
-    try {
-      if (!registerUsername || !registerPassword) {
-        alert('Please enter both username and password.');
-        return;
-      }
-
-      // Your registration logic
-      // This could be similar to the login logic, sending a request to register a new user
-      setShowRegister(false);
-      alert('Registration successful!');
-    } catch (error) {
-      console.error('Registration failed:', error.message);
-    }
-  };
-
   const handleRegisterClick = () => {
     setShowRegister(true);
     setShowLogin(false);
   };
 
+  const register = async () => {
+    try {
+      const response = await axios.post('http://localhost:3001/register', {
+        username: registerUsername,
+        password: registerPassword
+      });
+
+      if (response.status === 200) {
+        alert('Registration successful!');
+      } else {
+        alert('Registration failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error during registration:', error.message);
+      alert('Error during registration. Please try again.');
+    }
+  };
+
   return (
     <div>
-      <h1>Welcome! Try Scanning Something!! :3</h1>
-      <p>DO IT NOW... please</p>
+      <h1>Try Scanning Something!! :3</h1>
       <button onClick={scanItem} disabled={loading}>
         {loading ? 'Scanning...' : 'Scan Item'}
       </button>
-      <h2>Like what you see? Save it!</h2>
-      <p>You know you want too..</p>
+      <h2>Want to keep track of your items?</h2>
+      <h3>Login to save it!</h3>
       <button onClick={handleLoginClick} id="logIn">
         Login
       </button>
-      <button onClick={handleRegisterClick} id="register">
-        Register
-      </button>
 
-      {/* Render the login form when showLogin is true */}
+      {/* Popup for login */}
       {showLogin && (
-        <div>
-          <h2>Welcome Back!</h2>
-          <p>I missed you</p>
-          <p>call me?</p>
-          <label>
-            Username:
-            <input
-              type="text"
-              placeholder="Enter your username"
-              value={loginUsername}
-              onChange={(e) => setLoginUsername(e.target.value)}
-            />
-          </label>
-          <label>
-            Password:
-            <input
-              type="password"
-              placeholder="Enter your password"
-              value={loginPassword}
-              onChange={(e) => setLoginPassword(e.target.value)}
-            />
-          </label>
-          <button onClick={logIn}>Login</button>
+        <div className="popup-container">
+          <div className="popup">
+            <p>Welcome Back!</p>
+            <label>
+              Username:
+              <input
+                type="text"
+                placeholder="Enter your email"
+                value={loginUsername}
+                onChange={(e) => setLoginUsername(e.target.value)}
+              />
+            </label>
+            <label>
+              Password:
+              <input
+                type="password"
+                placeholder="Enter your password"
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
+              />
+            </label>
+            <button onClick={logIn}>Login</button>
+            <p>Don't have an account? <button onClick={handleRegisterClick} className="link-button">Register</button></p>
+          </div>
         </div>
       )}
 
-      {/* Render the register form when showRegister is true */}
+      {/* Popup for registration */}
       {showRegister && (
-        <div>
-          <h4>Register Here!</h4>
-          {/* Your registration form */}
-          <label>
-            Username:
-            <input
-              type="text"
-              placeholder="Enter your username"
-              value={registerUsername}
-              onChange={(e) => setRegisterUsername(e.target.value)}
-            />
-          </label>
-          <label>
-            Password:
-            <input
-              type="password"
-              placeholder="Enter your password"
-              value={registerPassword}
-              onChange={(e) => setRegisterPassword(e.target.value)}
-            />
-          </label>
-          <button onClick={register}>Register</button>
+        <div className="popup-container">
+          <div className="popup">
+            <p>Thanks for joining!</p>
+            <label>
+              Username:
+              <input
+                type="text"
+                placeholder="Enter your email"
+                value={registerUsername}
+                onChange={(e) => setRegisterUsername(e.target.value)}
+              />
+            </label>
+            <label>
+              Password:
+              <input
+                type="password"
+                placeholder="Enter your password"
+                value={registerPassword}
+                onChange={(e) => setRegisterPassword(e.target.value)}
+              />
+            </label>
+            <button onClick={register}>Register</button>
+          </div>
         </div>
       )}
     </div>

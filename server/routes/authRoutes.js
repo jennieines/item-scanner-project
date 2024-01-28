@@ -1,4 +1,3 @@
-// authRoutes.js
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
@@ -25,7 +24,8 @@ router.post('/login', async (req, res) => {
 });
 
 // User registration route
-router.post('/register', async (req, res) => {
+//path: localhost:3001/auth/register
+router.post('/auth/register', async (req, res) => {
   try {
     const { username, password } = req.body;
     

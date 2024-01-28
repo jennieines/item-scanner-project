@@ -1,6 +1,6 @@
 body {
     font-family: 'Arial', sans-serif, bold;
-    background-color: #0b0b0b;
+    background-color: #080808;
   }
   
   button {
@@ -14,7 +14,7 @@ body {
     font-size: 16px;
     margin: 0 auto;
     cursor: pointer;    
-    box-shadow: 1px 3px 10px rgba(8, 39, 241, 0.909);
+    box-shadow: 5px 5px 15px rgba(8, 39, 241, 0.909);
 
   }
   
@@ -61,13 +61,21 @@ h3 {
   text-align: center
 }
 
+h4 {
+  font-size: 40px; 
+  font-weight: bold;
+  color: #f5efef; 
+  padding: 10px; 
+  text-align: center
+}
+
   /* Popup Styles */
 .popup-container {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #fff;
+  background-color: #cfd4d9;
   border: 5px solid #ccc;
   padding: 50px;
   box-shadow: 15px 10px 30px rgba(8, 39, 241, 0.909);

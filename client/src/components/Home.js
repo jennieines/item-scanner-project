@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './styles.css';
 import axios from 'axios';
 
 const Home = () => {
@@ -63,7 +62,7 @@ const Home = () => {
 
   const register = async () => {
     try {
-      const response = await axios.post('http://localhost:3001/register', {
+      const response = await axios.post('http://localhost:3001/auth/register', {
         username: registerUsername,
         password: registerPassword
       });

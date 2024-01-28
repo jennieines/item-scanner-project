@@ -6,6 +6,8 @@ CREATE TABLE users (
   password VARCHAR(30) NOT NULL
 );
 
+-- \c itemscanner
+
 TABLE users;
  --display the users table and info
 

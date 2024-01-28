@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './styles.css';
 
 
 const SavedItems = () => {
@@ -23,7 +22,7 @@ const SavedItems = () => {
 
   return (
     <div>
-      <h2>Saved Items</h2>
+      <h4>Saved Items</h4>
       <button onClick={handleSave}>Save Item</button>
       {/* Display saved items */}
       <ul>

@@ -34,7 +34,7 @@ const Home = () => {
 
   const logIn = async () => {
     try {
-      const response = await axios.post('http://localhost:3001/login', {
+      const response = await axios.post('http://localhost:3001/auth/login', {
         username: loginUsername,
         password: loginPassword
       });

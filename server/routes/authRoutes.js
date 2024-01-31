@@ -23,14 +23,16 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// User registration route
+//User registration route 
 //path: localhost:3001/auth/register
-router.post('/auth/register', async (req, res) => {
+router.post('/register', async (req, res) => {
+  console.log("register handler reached")
   try {
     const { username, password } = req.body;
-    
+    console.log("username, password:", username, password)
     // Check if the username already exists
     const existingUser = await database.query('SELECT * FROM users WHERE username = $1', [username]);
+    console.log("existingUser:", existingUser);
     if (existingUser.rows.length > 0) {
       return res.status(400).json({ error: 'Username already exists' });
     }

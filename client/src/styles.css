@@ -79,7 +79,6 @@ h4 {
   border: 5px solid #ccc;
   padding: 50px;
   box-shadow: 15px 10px 30px rgba(8, 39, 241, 0.909);
-  z-index: 9999; /* Ensure it's above other content */
 }
 
 .popup {
@@ -108,5 +107,16 @@ h4 {
 .popup button:hover {
   background-color: #010006
 }
+
+.rotate-image {
+  position: fixed;
+  top: 40px; /* Adjust as needed */
+  right: 20px; /* Adjust as needed */
+  width: 175px; /* Adjust the width */
+  height: auto; /* Maintain aspect ratio */
+  animation: spin 4s linear infinite;
+  box-shadow: 10px 5px 20px rgba(8, 39, 241, 0.909);
+}
+
 
   

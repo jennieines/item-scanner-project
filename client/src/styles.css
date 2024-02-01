@@ -108,15 +108,30 @@ h4 {
   background-color: #010006
 }
 
-.rotate-image {
-  position: fixed;
-  top: 40px; /* Adjust as needed */
-  right: 20px; /* Adjust as needed */
-  width: 175px; /* Adjust the width */
+body {
+  font-family: 'Arial', sans-serif, bold;
+  text-align: center;
+  margin-top: 100px;
+  position: relative; /* Set position relative for the body */
+}
+
+.rotate-image, .image1, .image2, .image3, .image4 {
+  position: absolute;
+  width: 25%; /* Adjust width as needed */
   height: auto; /* Maintain aspect ratio */
-  animation: spin 4s linear infinite;
+  animation: spin 8s linear infinite;
   box-shadow: 10px 5px 20px rgba(8, 39, 241, 0.909);
 }
+
+/* Set initial positions using percentages */
+.image1 { top: %; right: 10%; }
+.image2 { top: 35%; left: 3%; width: 20%}
+.image3 { top: 32%; right: 4%; width: 20% }
+.image4 { top: %; left: 10%; }
+
+
+
+
 
 
   

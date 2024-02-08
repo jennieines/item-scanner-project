@@ -146,8 +146,13 @@ const Home = () => {
           </div>
         </div>
       )}
+  <img src="meme-cat.png" alt="cat making face" class="rotate-image image1"/>
+  <img src="garagesale.png" alt="yard sale" class="rotate-image image2"/>
+  <img src="cat.png" alt="cat selfie" class="rotate-image image3"/>
+  <img src="shrubbery.png" alt="Knights who say ni" class="rotate-image image4"/>
     </div>
   );
 };
+
 
 export default Home;

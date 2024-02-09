@@ -138,6 +138,27 @@ body {
   }
 }
 
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.main-image {
+  grid-column: 1 / span 2;
+}
+
+.boxes {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+}
+
 
 
 

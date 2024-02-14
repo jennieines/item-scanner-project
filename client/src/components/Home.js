@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate(); // call the SearchResults page
   const [loading, setLoading] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
@@ -9,6 +11,7 @@ const Home = () => {
   const [loginPassword, setLoginPassword] = useState('');
   const [registerUsername, setRegisterUsername] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
+  const [loggedInUsername, setLoggedInUsername] = useState('');
 
   const scanItem = async () => {
     try {
@@ -22,7 +25,7 @@ const Home = () => {
         const file = event.target.files[0];
         console.log('Selected file:', file); // Placeholder for actual file handling logic
 
-        setLoading(false);
+        navigate('/SearchResults');
       });
 
       input.click();
@@ -40,6 +43,8 @@ const Home = () => {
       });
 
       if (response.status === 200) {
+        setLoggedInUsername(loginUsername); // Update state with the logged-in username
+        setShowLogin(false); // Hide login pop-up
         alert('Login successful!');
       } else {
         alert('Login failed. Invalid credentials.');
@@ -69,6 +74,7 @@ const Home = () => {
 
       if (response.status === 200) {
         alert('Registration successful!');
+        setShowRegister(false); // Hide register pop-up
       } else {
         alert('Registration failed. Please try again.');
       }
@@ -85,7 +91,7 @@ const Home = () => {
         {loading ? 'Scanning...' : 'Scan Item'}
       </button>
       <h2>Want to keep track of your items?</h2>
-      <h3>Login to save it!</h3>
+      <h3>Create an account to save it!</h3>
       <button onClick={handleLoginClick} id="logIn">
         Login
       </button>
@@ -99,7 +105,7 @@ const Home = () => {
               Username:
               <input
                 type="text"
-                placeholder="Enter your email"
+                placeholder="Enter your username"
                 value={loginUsername}
                 onChange={(e) => setLoginUsername(e.target.value)}
               />
@@ -128,7 +134,7 @@ const Home = () => {
               Username:
               <input
                 type="text"
-                placeholder="Enter your email"
+                placeholder="Enter your username"
                 value={registerUsername}
                 onChange={(e) => setRegisterUsername(e.target.value)}
               />
@@ -146,13 +152,20 @@ const Home = () => {
           </div>
         </div>
       )}
-  <img src="meme-cat.png" alt="cat making face" class="rotate-image image1"/>
-  <img src="garagesale.png" alt="yard sale" class="rotate-image image2"/>
-  <img src="cat.png" alt="cat selfie" class="rotate-image image3"/>
-  <img src="shrubbery.png" alt="Knights who say ni" class="rotate-image image4"/>
+
+       {/* Welcome message with username */}
+       {loggedInUsername && (
+        <div>
+          <p className="welcome-message">Welcome, {loggedInUsername}!</p>
+        </div>
+      )}
+
+      <img src="meme-cat.png" alt="cat making face" className="rotate-image image1"/>
+      <img src="garagesale.png" alt="yard sale" className="rotate-image image2"/>
+      <img src="cat.png" alt="cat selfie" className="rotate-image image3"/>
+      <img src="shrubbery.png" alt="Knights who say ni" className="rotate-image image4"/>
     </div>
   );
 };
-
 
 export default Home;

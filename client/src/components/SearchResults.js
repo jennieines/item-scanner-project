@@ -1,7 +1,10 @@
-import React from 'react';
-import { Container, Card } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Container, Card, Button } from 'react-bootstrap';
 
-const SearchResults = ({ mainImage, searchResults, onImageUpload }) => {
+const SearchResults = ({ scanItem, searchResults, onImageUpload }) => {
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [saving, setSaving] = useState(false);
+
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -13,15 +16,37 @@ const SearchResults = ({ mainImage, searchResults, onImageUpload }) => {
     reader.readAsDataURL(file);
   };
 
-  console.log('Number of search results:', searchResults.length); // Add this line
+  const handleSelectItem = (index) => {
+    const selectedItem = searchResults[index];
+    const isSelected = selectedItems.find(item => item === selectedItem);
+
+    if (isSelected) {
+      // Deselect the item
+      setSelectedItems(selectedItems.filter(item => item !== selectedItem));
+    } else {
+      // Select the item
+      setSelectedItems([...selectedItems, selectedItem]);
+    }
+  };
+
+  const handleConfirmSave = () => {
+    // Logic to save the selected items
+    setSaving(true);
+    setTimeout(() => {
+      // Simulate saving items (replace with actual API call or state update)
+      alert('Items saved successfully!');
+      setSaving(false);
+      setSelectedItems([]);
+    }, 2000);
+  };
 
   return (
     <Container fluid>
       <div className="grid-container">
         {/* Main Image */}
         <div className="main-image">
-          {mainImage ? (
-            <img src={mainImage} alt="Your scanned item" className="img-fluid" style={{ width: '50%', height: 'auto' }} />
+          {scanItem ? (
+            <img src={scanItem} alt="Your scanned item" className="img-fluid" style={{ width: '50%', height: 'auto' }} />
           ) : (
             <input type="file" accept="image/*" onChange={handleImageUpload} />
           )}
@@ -29,8 +54,8 @@ const SearchResults = ({ mainImage, searchResults, onImageUpload }) => {
 
         {/* Search Results */}
         <div className="boxes">
-          {searchResults.slice(0, 9).map((result, index) => (
-            <div key={index} className="box">
+          {searchResults.map((result, index) => (
+            <div key={index} className={`box ${selectedItems.includes(result) ? 'selected' : ''}`} onClick={() => handleSelectItem(index)}>
               <Card style={{ height: '100%' }}>
                 <Card.Img variant="top" src={result.image} />
                 <Card.Body>
@@ -42,12 +67,16 @@ const SearchResults = ({ mainImage, searchResults, onImageUpload }) => {
               </Card>
             </div>
           ))}
-          {/* Add empty boxes to fill up the grid */}
-          {Array.from({ length: 9 - searchResults.length }, (_, index) => (
-            <div key={`empty-${index}`} className="empty-box"></div>
-          ))}
         </div>
       </div>
+      
+      {/* Button to start saving */}
+      {selectedItems.length > 0 && !saving && (
+        <Button onClick={handleConfirmSave}>Confirm Save</Button>
+      )}
+
+      {/* Loading indicator while saving */}
+      {saving && <p>Saving items...</p>}
     </Container>
   );
 };

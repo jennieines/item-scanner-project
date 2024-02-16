@@ -40,8 +40,8 @@ router.post('/register', async (req, res) => {
     // If the username is unique, insert the new user into the database
     await database.query('INSERT INTO users (username, password) VALUES ($1, $2)', [username, password]);
 
-    // Optionally, generate a JWT token and send it back to the client
-    const secretKey = '343270'; // You can change this to your desired secret key
+    // generate a JWT token and send it back to the client
+    const secretKey = '343270'; 
     const token = jwt.sign({ username }, secretKey);
     
     res.status(200).json({ message: 'User registered successfully', token });

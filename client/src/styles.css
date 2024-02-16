@@ -37,12 +37,19 @@ body {
     font-size: 20px;
     
   }
+
+  p1 { 
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    
+  }
   
 h1 {
   font-size: 45px; 
   font-weight: bold;
   color: #ffffff; 
-  padding: 50px; 
+  padding: 40px; 
   text-align: center
 }
 
@@ -50,7 +57,7 @@ h2 {
   font-size: 30px; 
   font-weight: bold;
   color: #f5efef; 
-  padding: 50px; 
+  padding: 80px; 
   text-align: center
 }
 h3 {
@@ -162,5 +169,4 @@ body {
 .welcome-message {
   color: white;
 }
-
 

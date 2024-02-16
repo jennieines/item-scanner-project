@@ -1,38 +1,42 @@
 import React, { useState } from 'react';
 
-
-const SavedItems = () => {
-  const [savedItems, setSavedItems] = useState([]);
-
-  // Function to handle saving items
-  const saveItem = (item) => {
-    setSavedItems((prevItems) => [...prevItems, item]);
-  };
+const SavedItems = ({ initialItems = [] }) => {
+  const [savedItems, setSavedItems] = useState(initialItems);
 
   // Function to handle deleting items
-  const deleteItem = (itemId) => {
+  const handleDelete = (itemId) => {
     setSavedItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
   };
 
-  // Example usage of saveItem function
-  const handleSave = () => {
-    const newItem = { id: 1, name: 'New Item', price: 9.99 }; // Replace with actual item data
-    saveItem(newItem);
+  // Function to toggle selected item
+  const toggleSelected = (itemId) => {
+    const updatedItems = savedItems.map((item) => {
+      if (item.id === itemId) {
+        return { ...item, selected: !item.selected };
+      }
+      return item;
+    });
+    setSavedItems(updatedItems);
   };
 
   return (
     <div>
       <h4>Saved Items</h4>
-      <button onClick={handleSave}>Save Item</button>
-      {/* Display saved items */}
-      <ul>
-        {savedItems.map((item) => (
-          <li key={item.id}>
-            {item.name} - ${item.price}
-            <button onClick={() => deleteItem(item.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+      {savedItems.length === 0 ? (
+        <p1>Oh no... there are no items saved yet 😕 </p1>
+      ) : (
+        <ul>
+          {savedItems.map((item) => (
+            <li key={item.id} style={{ outline: item.selected ? '2px solid blue' : 'none' }}>
+              {item.name} - ${item.price}
+              {/* Delete button with onClick event using handleDelete */}
+              <button onClick={() => handleDelete(item.id)}>Delete</button>
+              {/* Toggle selection button */}
+              <button onClick={() => toggleSelected(item.id)}>Toggle Selection</button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

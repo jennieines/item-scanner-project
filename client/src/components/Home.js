@@ -86,12 +86,19 @@ const Home = () => {
 
   return (
     <div>
-      <h1>Try Scanning Something!! :3</h1>
+      <h1>Try Scanning Something!! </h1>
       <button onClick={scanItem} disabled={loading}>
         {loading ? 'Scanning...' : 'Scan Item'}
       </button>
-      <h2>Want to keep track of your items?</h2>
-      <h3>Create an account to save it!</h3>
+
+      {/* Conditional rendering for the "View Saved Items" button */}
+      {loggedInUsername && (
+        <button onClick={() => navigate('/SavedItems')}>
+          View Saved Items
+        </button>
+      )}
+      <h2> 😬</h2>
+      <h3>Create an account to save your items!</h3>
       <button onClick={handleLoginClick} id="logIn">
         Login
       </button>
@@ -153,8 +160,8 @@ const Home = () => {
         </div>
       )}
 
-       {/* Welcome message with username */}
-       {loggedInUsername && (
+      {/* Welcome message with username */}
+      {loggedInUsername && (
         <div>
           <p className="welcome-message">Welcome, {loggedInUsername}!</p>
         </div>

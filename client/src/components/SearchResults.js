@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Card, Button } from 'react-bootstrap';
 
 const SearchResults = ({ scanItem, searchResults, onImageUpload }) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [saving, setSaving] = useState(false);
+
+  //add a useEffect to send a get request with fetch or axios
+  //to our server (localhost:3001/scan) whenever the SearchResults 
+  //component loads, which should be after an image upload is
+  //attempted. if successful, should see message and json response in 
+  //server terminal
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -42,6 +48,7 @@ const SearchResults = ({ scanItem, searchResults, onImageUpload }) => {
 
   return (
     <Container fluid>
+      <h1>SEARCH RESULTS</h1>
       <div className="grid-container">
         {/* Main Image */}
         <div className="main-image">

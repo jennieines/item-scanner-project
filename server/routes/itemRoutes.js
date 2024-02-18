@@ -1,6 +1,11 @@
 const express = require('express');
+const axios = require('axios');
 const router = express.Router();
-const database = require('../database'); // Connect to PostgreSQL database
+const { getJson } = require("serpapi");
+
+// Define your SerpAPI API key
+const serpApiKey = 'e1506cd90c3d305e5b45a8f982011f9e002db3ebc75ce7504124725d2a21ef7d';
+const tempImageUrl = 'https://i.pinimg.com/564x/5e/5d/57/5e5d5756efb28be3b29f6902a3429c46.jpg';
 
 // Define routes for items
 router.get('/', (req, res) => {
@@ -13,30 +18,57 @@ router.post('/', (req, res) => {
   res.send('Add new item route');
 });
 
-// New route for scanning items
-router.get('/scan', (req, res) => {
-  // Implement logic to fetch and send scanned items
-  // This is where you would communicate with your database or external APIs
-  // Replace the placeholder with the actual logic to retrieve scanned items
+// New route for scanning items using Google Lens API through SerpAPI
+router.get('/scan', async (req, res) => {
+  try {
+    const { url, hl, country } = req.query; // Extract query parameters
 
-  // Sending fake data to test before using googleAPI
-  const fakeData = [
-    {
-      name: "Coffee Cup",
-      price: 7.99,
-      image_url: ".....",
-      item_url: "......"
-    },
-    {
-      name: "Lawnmower",
-      price: 799.99,
-      image_url: ".....",
-      item_url: "......"
-    },
-  ];
+    let response; 
 
-  // Sending the fake data as a response
-  res.json(fakeData);
+    getJson({
+      api_key: serpApiKey,
+      engine: "google_lens",
+      url: tempImageUrl,
+    }, (json) => {
+      console.log ('apiGetJson');
+      console.log(json);
+      response = json;
+    });
+
+    // Make a GET request to the SerpAPI Google Lens endpoint
+    // const response = await axios.get('https://serpapi.com/search', {
+    //   params: {
+    //     engine: 'google_lens',
+    //     api_key: serpApiKey, // Using the SerpAPI API key
+    //     url, // URL of the image to perform the Google Lens search
+    //     hl, // Language code for localization (optional)
+    //     country, // Country code for localization (optional)
+    //     // Add any other necessary parameters
+    //   },
+    // });
+
+    // Extract relevant data from the response
+    const searchData = response.data;
+
+    // Extract search results if available
+    const searchResults = searchData.searchresults || [];
+
+    // Transform search results to include only required fields
+    const transformedResults = searchResults.map(result => ({
+      source: result.source,
+      source_logo: result.source_logo,
+      price: result.price,
+      extracted_price: result.extracted_price,
+      link: result.link,
+      snippet: result.snippet
+    }));
+
+    // Send the transformed data back to the client
+    res.json(transformedResults);
+  } catch (error) {
+    console.error('Error fetching data from Google Lens API:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 // Add more item routes as needed

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const Home = () => {
+const Home = ({ setScanItem}) => {
   const navigate = useNavigate(); // call the SearchResults page
   const [loading, setLoading] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
@@ -13,6 +13,7 @@ const Home = () => {
   const [registerPassword, setRegisterPassword] = useState('');
   const [loggedInUsername, setLoggedInUsername] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
+  
 
   useEffect(() => {
     // Check if user is already logged in on page load
@@ -33,7 +34,9 @@ const Home = () => {
       input.addEventListener('change', async (event) => {
         const file = event.target.files[0];
         console.log('Selected file:', file); // Placeholder for actual file handling logic
-
+        setScanItem(file); // Update scanItem state in the App component
+        
+        setLoading(false);
         navigate('/SearchResults');
       });
 

@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Card, Button } from 'react-bootstrap';
 
 const SearchResults = ({ scanItem, searchResults, onImageUpload }) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [saving, setSaving] = useState(false);
+  const [scanItemURL, setScanItemURL] = useState(null); // State to hold the URL of the scanned item image
 
-  //add a useEffect to send a get request with fetch or axios
-  //to our server (localhost:3001/scan) whenever the SearchResults 
-  //component loads, which should be after an image upload is
-  //attempted. if successful, should see message and json response in 
-  //server terminal
+  useEffect(() => {
+    if (scanItem) {
+      // Convert the File object to a data URL
+      const reader = new FileReader();
+      reader.onload = () => {
+        setScanItemURL(reader.result);
+      };
+      reader.readAsDataURL(scanItem);
+    }
+  }, [scanItem]);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      onImageUpload(reader.result);
-    };
-
-    reader.readAsDataURL(file);
+    onImageUpload(file);
   };
 
   const handleSelectItem = (index) => {
@@ -52,8 +52,8 @@ const SearchResults = ({ scanItem, searchResults, onImageUpload }) => {
       <div className="grid-container">
         {/* Main Image */}
         <div className="main-image">
-          {scanItem ? (
-            <img src={scanItem} alt="Your scanned item" className="img-fluid" style={{ width: '50%', height: 'auto' }} />
+          {scanItemURL ? (
+            <img src={scanItemURL} alt="Your scanned item" className="img-fluid" style={{ width: '50%', height: 'auto' }} />
           ) : (
             <input type="file" accept="image/*" onChange={handleImageUpload} />
           )}
@@ -77,13 +77,13 @@ const SearchResults = ({ scanItem, searchResults, onImageUpload }) => {
         </div>
       </div>
       
-      {/* Button to start saving */}
-      {selectedItems.length > 0 && !saving && (
-        <Button onClick={handleConfirmSave}>Confirm Save</Button>
-      )}
+      {/* Save Button */}
+      <div style={{ marginTop: '20px', textAlign: 'center' }}>
+        <Button onClick={handleConfirmSave} disabled={selectedItems.length === 0}>Save</Button>
+      </div>
 
       {/* Loading indicator while saving */}
-      {saving && <p>Saving items...</p>}
+      {saving && <p style={{ textAlign: 'center' }}>Saving items...</p>}
     </Container>
   );
 };

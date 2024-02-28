@@ -9,6 +9,11 @@ function App() {
   // State to store the uploaded image
   const [scanItem, setScanItem] = useState(null);
 
+     // Function to handle image upload
+  const handleImageUpload = (imageData) => {
+    setScanItem(imageData);
+  };
+
   // Sample data for search results
   const searchResults = [
     { image: 'path_to_image_1.jpg', title: 'Result 1', description: 'Description 1', price: '$10', website: 'https://example.com' },
@@ -22,23 +27,19 @@ function App() {
     { image: 'path_to_image_9.jpg', title: 'Result 9', description: 'Description 9', price: '$67', website: 'https://example.com' }
   ];
 
-  // Function to handle image upload
-  const handleImageUpload = (imageData) => {
-    setScanItem(imageData);
-  };
-
   return (
     <Router>
       <div>
         <Routes>
-          <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home setScanItem={setScanItem} />} />
           <Route path="/SavedItems" element={<SavedItems />} />
-          {/* Pass scanItem and searchResults as props to SearchResults component */}
-          <Route path="/SearchResults" element={<SearchResults scanItem={scanItem} searchResults={searchResults} onImageUpload={handleImageUpload} />} />
+          {/* Pass scanItem and handleImageUpload as props to SearchResults component */}
+          <Route path="/SearchResults" element={<SearchResults scanItem={scanItem} onImageUpload={handleImageUpload} searchResults={searchResults} />} />
         </Routes>
       </div>
     </Router>
   );
 }
+
 
 export default App;

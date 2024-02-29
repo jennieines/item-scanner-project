@@ -1,11 +1,64 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Card, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
-const SearchResults = ({ scanItem, searchResults, onImageUpload }) => {
+
+const SearchResults = ({ scanItem, searchResults, onImageUpload, onSaveItems }) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [saving, setSaving] = useState(false);
   const [scanItemURL, setScanItemURL] = useState(null); // State to hold the URL of the scanned item image
 
+  const fakeSearchResults = [
+    {
+      source: "Fake News Network",
+      source_logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMtIr33VxAQUpJFAceFeeavazsHj7-ePc7UQ&usqp=CAU",
+      price: "$19.99",
+      extracted_price: "$15.99",
+      link: "https://fakeexample.com",
+      snippet: "This is a snippet of fake news data."
+    },
+    {
+      source: "Phony Times",
+      source_logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMtIr33VxAQUpJFAceFeeavazsHj7-ePc7UQ&usqp=CAU",
+      price: "$29.99",
+      extracted_price: "$24.99",
+      link: "https://phonyexample.com",
+      snippet: "This is a snippet of phony news data."
+    },
+    {
+      source: "Fabricated Gazette",
+      source_logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMtIr33VxAQUpJFAceFeeavazsHj7-ePc7UQ&usqp=CAU",
+      price: "$14.99",
+      extracted_price: "$12.49",
+      link: "https://fabricatedexample.com",
+      snippet: "This is a snippet of fabricated news data."
+    },
+    {
+      source: "Faux Journal",
+      source_logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMtIr33VxAQUpJFAceFeeavazsHj7-ePc7UQ&usqp=CAU",
+      price: "$22.99",
+      extracted_price: "$19.99",
+      link: "https://fauxexample.com",
+      snippet: "This is a snippet of faux news data."
+    },
+    {
+      source: "Deceptive Digest",
+      source_logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMtIr33VxAQUpJFAceFeeavazsHj7-ePc7UQ&usqp=CAU",
+      price: "$34.99",
+      extracted_price: "$29.99",
+      link: "https://deceptiveexample.com",
+      snippet: "This is a snippet of deceptive news data."
+    },
+    {
+      source: "Counterfeit Chronicle",
+      source_logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMtIr33VxAQUpJFAceFeeavazsHj7-ePc7UQ&usqp=CAU",
+      price: "$39.99",
+      extracted_price: "$34.99",
+      link: "https://counterfeitexample.com",
+      snippet: "This is a snippet of counterfeit news data."
+    }
+  ];  
+  
   useEffect(() => {
     if (scanItem) {
       // Convert the File object to a data URL
@@ -23,31 +76,42 @@ const SearchResults = ({ scanItem, searchResults, onImageUpload }) => {
   };
 
   const handleSelectItem = (index) => {
-    const selectedItem = searchResults[index];
-    const isSelected = selectedItems.find(item => item === selectedItem);
-
+    const selectedItem = fakeSearchResults[index];
+    const isSelected = selectedItems.find(item => item.source === selectedItem.source);
+  
     if (isSelected) {
       // Deselect the item
-      setSelectedItems(selectedItems.filter(item => item !== selectedItem));
+      setSelectedItems(selectedItems.filter(item => item.source !== selectedItem.source));
     } else {
-      // Select the item
+      // Select only the clicked item
       setSelectedItems([...selectedItems, selectedItem]);
     }
   };
-
+  
   const handleConfirmSave = () => {
     // Logic to save the selected items
+    onSaveItems(selectedItems); // Call onSaveItems with selectedItems as parameter
     setSaving(true);
     setTimeout(() => {
       // Simulate saving items (replace with actual API call or state update)
       alert('Items saved successfully!');
       setSaving(false);
       setSelectedItems([]);
+      // Pass selected items to onSaveItems function
+      onSaveItems(selectedItems);
     }, 2000);
   };
 
   return (
     <Container fluid>
+      {/* Navigation links */}
+      <nav>
+        <ul>
+          <li>
+            <Link to="/" style={{ color: 'white' }}>Home</Link>
+          </li>
+        </ul>
+      </nav>
       <h1>SEARCH RESULTS</h1>
       <div className="grid-container">
         {/* Main Image */}
@@ -61,19 +125,19 @@ const SearchResults = ({ scanItem, searchResults, onImageUpload }) => {
 
         {/* Search Results */}
         <div className="boxes">
-          {searchResults.map((result, index) => (
-            <div key={index} className={`box ${selectedItems.includes(result) ? 'selected' : ''}`} onClick={() => handleSelectItem(index)}>
-              <Card style={{ height: '100%' }}>
-                <Card.Img variant="top" src={result.image} />
-                <Card.Body>
-                  <Card.Title>{result.title}</Card.Title>
-                  <Card.Text>{result.description}</Card.Text>
-                  <Card.Text>Price: {result.price}</Card.Text>
-                  <Card.Link href={result.website}>Visit Website</Card.Link>
-                </Card.Body>
-              </Card>
-            </div>
-          ))}
+        {fakeSearchResults.map((result, index) => (
+  <div key={index} className={`box ${selectedItems.find(item => item.source === result.source) ? 'selected' : ''}`} onClick={() => handleSelectItem(index)}>
+    <Card style={{ height: '100%' }}>
+      <Card.Img variant="top" src={result.source_logo} />
+      <Card.Body>
+        <Card.Title>{result.source}</Card.Title>
+        <Card.Text>{result.snippet}</Card.Text>
+        <Card.Text>Price: {result.price}</Card.Text>
+        <Card.Link href={result.link}>Visit Website</Card.Link>
+      </Card.Body>
+    </Card>
+  </div>
+))}
         </div>
       </div>
       

@@ -21,7 +21,7 @@ router.post('/', (req, res) => {
 // New route for scanning items using Google Lens API through SerpAPI
 router.get('/scan', async (req, res) => {
   try {
-    const { url, hl, country } = req.query; // Extract query parameters
+    //const { url, hl, country } = req.query; // Extract query parameters
 
     let response; 
 
@@ -52,6 +52,11 @@ router.get('/scan', async (req, res) => {
 
     // Extract search results if available
     const searchResults = searchData.searchresults || [];
+
+    //response has a shopping_results property that is an array of items
+    //ultimately, data will be extracted to just be this array
+    //this is what we want to send back to the client
+    //assume searchResults is the untransfromed array
 
     // Transform search results to include only required fields
     const transformedResults = searchResults.map(result => ({

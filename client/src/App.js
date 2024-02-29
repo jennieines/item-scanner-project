@@ -6,12 +6,15 @@ import SearchResults from './components/SearchResults';
 import './styles.css';
 
 function App() {
-  // State to store the uploaded image
   const [scanItem, setScanItem] = useState(null);
 
-     // Function to handle image upload
   const handleImageUpload = (imageData) => {
     setScanItem(imageData);
+  };
+
+  const handleSaveItems = (items) => {
+    // Handle saving items logic here
+    console.log('Saving items:', items);
   };
 
   // Sample data for search results
@@ -31,15 +34,23 @@ function App() {
     <Router>
       <div>
         <Routes>
-        <Route path="/" element={<Home setScanItem={setScanItem} />} />
+          <Route path="/" element={<Home setScanItem={setScanItem} />} />
           <Route path="/SavedItems" element={<SavedItems />} />
-          {/* Pass scanItem and handleImageUpload as props to SearchResults component */}
-          <Route path="/SearchResults" element={<SearchResults scanItem={scanItem} onImageUpload={handleImageUpload} searchResults={searchResults} />} />
+          <Route
+            path="/SearchResults"
+            element={
+              <SearchResults
+                scanItem={scanItem}
+                onImageUpload={handleImageUpload}
+                searchResults={searchResults}
+                onSaveItems={handleSaveItems} // Pass handleSaveItems as a prop
+              />
+            }
+          />
         </Routes>
       </div>
     </Router>
   );
 }
-
 
 export default App;

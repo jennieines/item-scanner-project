@@ -170,3 +170,10 @@ body {
   color: white;
 }
 
+.card-body {
+  color: white; 
+}
+
+.box.selected {
+  border: 2px solid blue;
+}

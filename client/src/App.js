@@ -13,7 +13,6 @@ function App() {
   };
 
   const handleSaveItems = (items) => {
-    // Handle saving items logic here
     console.log('Saving items:', items);
   };
 
@@ -43,7 +42,7 @@ function App() {
                 scanItem={scanItem}
                 onImageUpload={handleImageUpload}
                 searchResults={searchResults}
-                onSaveItems={handleSaveItems} // Pass handleSaveItems as a prop
+                onSaveItems={handleSaveItems} 
               />
             }
           />

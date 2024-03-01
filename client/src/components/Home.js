@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Home = ({ setScanItem}) => {
-  const navigate = useNavigate(); // call the SearchResults page
+  const navigate = useNavigate(); 
   const [loading, setLoading] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
@@ -12,11 +12,10 @@ const Home = ({ setScanItem}) => {
   const [registerUsername, setRegisterUsername] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
   const [loggedInUsername, setLoggedInUsername] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
   
 
   useEffect(() => {
-    // Check if user is already logged in on page load
     const token = localStorage.getItem('token');
     if (token) {
       setIsLoggedIn(true);
@@ -33,8 +32,8 @@ const Home = ({ setScanItem}) => {
 
       input.addEventListener('change', async (event) => {
         const file = event.target.files[0];
-        console.log('Selected file:', file); // Placeholder for actual file handling logic
-        setScanItem(file); // Update scanItem state in the App component
+        console.log('Selected file:', file); 
+        setScanItem(file);
         
         setLoading(false);
         navigate('/SearchResults');
@@ -55,10 +54,10 @@ const Home = ({ setScanItem}) => {
       });
 
       if (response.status === 200) {
-        setLoggedInUsername(loginUsername); // Update state with the logged-in username
-        setIsLoggedIn(true); // Set login status to true
-        localStorage.setItem('token', response.data.token); // Store token in local storage
-        setShowLogin(false); // Hide login pop-up
+        setLoggedInUsername(loginUsername); 
+        setIsLoggedIn(true); 
+        localStorage.setItem('token', response.data.token); 
+        setShowLogin(false); 
         alert('Login successful!');
       } else {
         alert('Login failed. Invalid credentials.');
@@ -70,9 +69,9 @@ const Home = ({ setScanItem}) => {
   };
 
   const logOut = () => {
-    localStorage.removeItem('token'); // Remove token from local storage
-    setIsLoggedIn(false); // Set login status to false
-    setLoggedInUsername(''); // Clear logged-in username
+    localStorage.removeItem('token'); 
+    setIsLoggedIn(false); 
+    setLoggedInUsername(''); 
   };
 
   const handleLoginClick = () => {
@@ -94,7 +93,7 @@ const Home = ({ setScanItem}) => {
 
       if (response.status === 200) {
         alert('Registration successful!');
-        setShowRegister(false); // Hide register pop-up
+        setShowRegister(false); 
       } else {
         alert('Registration failed. Please try again.');
       }
@@ -111,7 +110,7 @@ const Home = ({ setScanItem}) => {
         {loading ? 'Scanning...' : 'Scan Item'}
       </button>
 
-      {/* Conditional rendering for the "View Saved Items" button */}
+      
       {isLoggedIn && (
         <button onClick={() => navigate('/SavedItems')} className="view-saved-items-button">
           View Saved Items
@@ -127,7 +126,6 @@ const Home = ({ setScanItem}) => {
         </button>
       )}
 
-      {/* Popup for login */}
       {showLogin && (
         <div className="popup-container">
           <div className="popup">
@@ -148,7 +146,7 @@ const Home = ({ setScanItem}) => {
                 placeholder="Enter your password"
                 value={loginPassword}
                 onChange={(e) => setLoginPassword(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && logIn()} // Log in on Enter key press
+                onKeyPress={(e) => e.key === 'Enter' && logIn()} 
               />
             </label>
             <button onClick={logIn}>Login</button>
@@ -162,7 +160,6 @@ const Home = ({ setScanItem}) => {
         </div>
       )}
 
-      {/* Popup for registration */}
       {showRegister && (
         <div className="popup-container">
           <div className="popup">
@@ -183,7 +180,7 @@ const Home = ({ setScanItem}) => {
                 placeholder="Enter your password"
                 value={registerPassword}
                 onChange={(e) => setRegisterPassword(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && register()} // Register on Enter key press
+                onKeyPress={(e) => e.key === 'Enter' && register()} 
               />
             </label>
             <button onClick={register}>Register</button>
@@ -191,7 +188,6 @@ const Home = ({ setScanItem}) => {
         </div>
       )}
 
-      {/* Welcome message with username */}
       {loggedInUsername && (
         <div>
           <p className="welcome-message">Welcome, {loggedInUsername}!</p>

@@ -7,14 +7,11 @@ const { getJson } = require("serpapi");
 const serpApiKey = 'e1506cd90c3d305e5b45a8f982011f9e002db3ebc75ce7504124725d2a21ef7d';
 const tempImageUrl = 'https://i.pinimg.com/564x/5e/5d/57/5e5d5756efb28be3b29f6902a3429c46.jpg';
 
-// Define routes for items
 router.get('/', (req, res) => {
-  // Implement logic to fetch and send items
   res.send('Get all items route');
 });
 
 router.post('/', (req, res) => {
-  // Implement logic to add a new item
   res.send('Add new item route');
 });
 

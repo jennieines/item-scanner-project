@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const SearchResults = ({ scanItem, searchResults, onImageUpload, onSaveItems }) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [saving, setSaving] = useState(false);
-  const [scanItemURL, setScanItemURL] = useState(null); // State to hold the URL of the scanned item image
+  const [scanItemURL, setScanItemURL] = useState(null); 
 
   const fakeSearchResults = [
     {
@@ -80,31 +80,26 @@ const SearchResults = ({ scanItem, searchResults, onImageUpload, onSaveItems }) 
     const isSelected = selectedItems.find(item => item.source === selectedItem.source);
   
     if (isSelected) {
-      // Deselect the item
       setSelectedItems(selectedItems.filter(item => item.source !== selectedItem.source));
     } else {
-      // Select only the clicked item
       setSelectedItems([...selectedItems, selectedItem]);
     }
   };
   
   const handleConfirmSave = () => {
-    // Logic to save the selected items
-    onSaveItems(selectedItems); // Call onSaveItems with selectedItems as parameter
+    onSaveItems(selectedItems); 
     setSaving(true);
     setTimeout(() => {
       // Simulate saving items (replace with actual API call or state update)
       alert('Items saved successfully!');
       setSaving(false);
       setSelectedItems([]);
-      // Pass selected items to onSaveItems function
       onSaveItems(selectedItems);
     }, 2000);
   };
 
   return (
     <Container fluid>
-      {/* Navigation links */}
       <nav>
         <ul>
           <li>
@@ -114,7 +109,6 @@ const SearchResults = ({ scanItem, searchResults, onImageUpload, onSaveItems }) 
       </nav>
       <h1>SEARCH RESULTS</h1>
       <div className="grid-container">
-        {/* Main Image */}
         <div className="main-image">
           {scanItemURL ? (
             <img src={scanItemURL} alt="Your scanned item" className="img-fluid" style={{ width: '50%', height: 'auto' }} />
@@ -141,12 +135,10 @@ const SearchResults = ({ scanItem, searchResults, onImageUpload, onSaveItems }) 
         </div>
       </div>
       
-      {/* Save Button */}
       <div style={{ marginTop: '20px', textAlign: 'center' }}>
         <Button onClick={handleConfirmSave} disabled={selectedItems.length === 0}>Save</Button>
       </div>
 
-      {/* Loading indicator while saving */}
       {saving && <p style={{ textAlign: 'center' }}>Saving items...</p>}
     </Container>
   );

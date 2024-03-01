@@ -11,7 +11,7 @@ router.post('/login', async (req, res) => {
     // Validate user credentials and generate JWT token
     const user = await database.query('SELECT * FROM users WHERE username = $1 AND password = $2', [username, password]);
     if (user.rows.length === 1) {
-      const secretKey = '343270'; // You can change this to your desired secret key
+      const secretKey = '343270';
       const token = jwt.sign({ username }, secretKey);
       res.json({ token });
     } else {

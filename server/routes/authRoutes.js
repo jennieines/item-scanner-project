@@ -1,7 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+const admin = require('firebase-admin'); 
+// const serviceAccount = require('client/config/serviceAccountKey.json'); 
 const database = require('../database'); 
+
+// Initialize Firebase Admin SDK
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   storageBucket: 'https://console.firebase.google.com/project/item-scanner-1705171203367/storage/item-scanner-1705171203367.appspot.com/files',
+// });
 
 // User login route
 router.post('/login', async (req, res) => {
@@ -23,8 +31,8 @@ router.post('/login', async (req, res) => {
   }
 });
 
-//User registration route 
-//path: localhost:3001/auth/register
+// User registration route 
+// path: localhost:3001/auth/register
 router.post('/register', async (req, res) => {
   console.log("register handler reached")
   try {

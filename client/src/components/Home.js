@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { storage } from '../firebase-config';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
-const Home = ({ setScanItem}) => {
+
+const Home = ({ scanItem, setScanItem}) => {
   const navigate = useNavigate(); 
   const [loading, setLoading] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
@@ -22,23 +25,44 @@ const Home = ({ setScanItem}) => {
     }
   }, []);
 
-  const scanItem = async () => {
+  useEffect(() => {
+    console.log("scan item in home: ", scanItem);
+  }, [scanItem]);
+
+
+  const uploadAndScanItem = async () => {
     try {
       setLoading(true);
-
       const input = document.createElement('input');
       input.type = 'file';
       input.accept = 'image/*';
-
-      input.addEventListener('change', async (event) => {
+      input.onchange = async (event) => {
         const file = event.target.files[0];
-        console.log('Selected file:', file); 
-        setScanItem(file);
-        
-        setLoading(false);
-        navigate('/SearchResults');
-      });
-
+        const storageRef = ref(storage, `images/${file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+  
+        uploadTask.on(
+          'state_changed',
+          (snapshot) => {
+            // Optional: observe state change events such as progress, pause, and resume
+          },
+          (error) => {
+            // Handle unsuccessful uploads
+            console.error('Upload error:', error);
+            setLoading(false);
+          },
+          () => {
+          // Handle successful uploads on complete
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log('File available at', downloadURL);
+            // Here you can use the downloadURL for your API parameter
+            setScanItem(downloadURL); // Assuming setScanItem expects a URL
+            setLoading(false);
+            navigate('/SearchResults');
+          });
+          }
+        );
+      };
       input.click();
     } catch (error) {
       console.error('Error scanning item:', error.message);
@@ -106,7 +130,8 @@ const Home = ({ setScanItem}) => {
   return (
     <div>
       <h1>Try Scanning Something!! </h1>
-      <button onClick={scanItem} disabled={loading}>
+      <p>scanItem: {scanItem}</p>
+      <button onClick={uploadAndScanItem} disabled={loading}>
         {loading ? 'Scanning...' : 'Scan Item'}
       </button>
 

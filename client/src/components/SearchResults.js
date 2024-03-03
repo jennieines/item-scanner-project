@@ -3,80 +3,36 @@ import { Container, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 
-const SearchResults = ({ scanItem, searchResults, onImageUpload, onSaveItems }) => {
+const SearchResults = ({ scanItem, onSaveItems }) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [saving, setSaving] = useState(false);
-  const [scanItemURL, setScanItemURL] = useState(null); 
-
-  const fakeSearchResults = [
-    {
-      source: "Fake News Network",
-      source_logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMtIr33VxAQUpJFAceFeeavazsHj7-ePc7UQ&usqp=CAU",
-      price: "$19.99",
-      extracted_price: "$15.99",
-      link: "https://fakeexample.com",
-      snippet: "This is a snippet of fake news data."
-    },
-    {
-      source: "Phony Times",
-      source_logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMtIr33VxAQUpJFAceFeeavazsHj7-ePc7UQ&usqp=CAU",
-      price: "$29.99",
-      extracted_price: "$24.99",
-      link: "https://phonyexample.com",
-      snippet: "This is a snippet of phony news data."
-    },
-    {
-      source: "Fabricated Gazette",
-      source_logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMtIr33VxAQUpJFAceFeeavazsHj7-ePc7UQ&usqp=CAU",
-      price: "$14.99",
-      extracted_price: "$12.49",
-      link: "https://fabricatedexample.com",
-      snippet: "This is a snippet of fabricated news data."
-    },
-    {
-      source: "Faux Journal",
-      source_logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMtIr33VxAQUpJFAceFeeavazsHj7-ePc7UQ&usqp=CAU",
-      price: "$22.99",
-      extracted_price: "$19.99",
-      link: "https://fauxexample.com",
-      snippet: "This is a snippet of faux news data."
-    },
-    {
-      source: "Deceptive Digest",
-      source_logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMtIr33VxAQUpJFAceFeeavazsHj7-ePc7UQ&usqp=CAU",
-      price: "$34.99",
-      extracted_price: "$29.99",
-      link: "https://deceptiveexample.com",
-      snippet: "This is a snippet of deceptive news data."
-    },
-    {
-      source: "Counterfeit Chronicle",
-      source_logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMtIr33VxAQUpJFAceFeeavazsHj7-ePc7UQ&usqp=CAU",
-      price: "$39.99",
-      extracted_price: "$34.99",
-      link: "https://counterfeitexample.com",
-      snippet: "This is a snippet of counterfeit news data."
-    }
-  ];  
+  const [searchResults, setSearchResults] = useState([1, 2, 3]);  
   
-  useEffect(() => {
-    if (scanItem) {
-      // Convert the File object to a data URL
-      const reader = new FileReader();
-      reader.onload = () => {
-        setScanItemURL(reader.result);
-      };
-      reader.readAsDataURL(scanItem);
-    }
-  }, [scanItem]);
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    onImageUpload(file);
+useEffect(() => {
+  const fetchSearchResults = async () => {
+    if (scanItem) {
+      try {
+        // Send a request to your server to fetch search results using scanItem URL
+        const response = await fetch(`/items/scan?url=${encodeURIComponent(scanItem)}`);
+        if (response.ok) {
+          const data = await response.json();
+          setSearchResults(data);
+        } else {
+          console.error('Failed to fetch search results:', response.status);
+        }
+      } catch (error) {
+        console.error('Error fetching search results:', error);
+      }
+    }
   };
 
+  fetchSearchResults();
+}, [scanItem]);
+
+
   const handleSelectItem = (index) => {
-    const selectedItem = fakeSearchResults[index];
+    const selectedItem = searchResults[index];
     const isSelected = selectedItems.find(item => item.source === selectedItem.source);
   
     if (isSelected) {
@@ -108,18 +64,17 @@ const SearchResults = ({ scanItem, searchResults, onImageUpload, onSaveItems }) 
         </ul>
       </nav>
       <h1>SEARCH RESULTS</h1>
+      <h3>scanItem: {scanItem}</h3>
       <div className="grid-container">
         <div className="main-image">
-          {scanItemURL ? (
-            <img src={scanItemURL} alt="Your scanned item" className="img-fluid" style={{ width: '50%', height: 'auto' }} />
-          ) : (
-            <input type="file" accept="image/*" onChange={handleImageUpload} />
-          )}
+          {scanItem ? (
+            <img src={scanItem} alt="Your scanned item" className="img-fluid" style={{ width: '50%', height: 'auto' }} />
+          ) : null}
         </div>
 
         {/* Search Results */}
         <div className="boxes">
-        {fakeSearchResults.map((result, index) => (
+        {searchResults.map((result, index) => (
   <div key={index} className={`box ${selectedItems.find(item => item.source === result.source) ? 'selected' : ''}`} onClick={() => handleSelectItem(index)}>
     <Card style={{ height: '100%' }}>
       <Card.Img variant="top" src={result.source_logo} />

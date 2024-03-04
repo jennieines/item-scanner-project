@@ -30,18 +30,19 @@ router.get('/scan', async (req, res) => {
 //objects, some of which have a price object. your shoppingResults 
 //array can just be the filtered out results that have prices
 
-      console.log("reponse", response);
-      console.log("response.shopping_results", response["shopping_results"]);
+      //console.log("reponse", response);
+      //console.log("response.visual_matches", response["visual_matches"]);
 
-      const shoppingResults = response?.knowledge_graph?.[0]?.shopping_results || [];
+      const visualMatches = response?.visual_matches || [];
 
-      const transformedResults = shoppingResults.map(result => ({
+      const filteredResults = visualMatches.filter(result => result.price && result.price.value);
+
+      const transformedResults = filteredResults.map(result => ({
         source: result.source,
-        source_logo: result.source_logo,
-        price: result.price,
-        extracted_price: result.extracted_price,
+        source_logo: result.source_icon, 
+        price: result.price.value,
         link: result.link,
-        snippet: result.snippet
+        thumbnail: result.thumbnail,
       }));
 
     

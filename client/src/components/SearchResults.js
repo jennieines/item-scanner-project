@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 import '../styles.css';
 
 const SearchResults = ({ scanItem, onSaveItems }) => {
@@ -48,12 +46,11 @@ const SearchResults = ({ scanItem, onSaveItems }) => {
       alert('Items saved successfully!');
       setSaving(false);
       setSelectedItems([]);
-      onSaveItems(selectedItems);
     }, 2000);
   };
 
   return (
-    <Container fluid>
+    <div className="container">
       <nav>
         <ul>
           <li>
@@ -62,36 +59,28 @@ const SearchResults = ({ scanItem, onSaveItems }) => {
         </ul>
       </nav>
       <h1>SEARCH RESULTS</h1>
-      <Row>
-        {/* Main scanned image */}
-        <Col xs={12} lg={6} className="text-center mb-4 mb-lg-0">
-          {scanItem && (
-            <img src={scanItem} alt="Your scanned item" className="img-fluid" />
-          )}
-        </Col>
-        {/* Search results */}
-        <Col xs={12} lg={6}>
-          <Row className="search-results">
-            {searchResults.map((result, index) => (
-              <Col key={index} xs={12} sm={6} md={4} className="mb-3" onClick={() => handleSelectItem(index)}>
-                <Card>
-                  <Card.Img variant="top" src={result.thumbnail} />
-                  <Card.Body>
-                    <Card.Title>{result.source}</Card.Title>
-                    <Card.Text>Price: {result.price}</Card.Text>
-                    <Button variant="primary" href={result.link}>Visit Website</Button>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </Col>
-      </Row>
+      <div className="search-results-container">
+        <div className="main-image">
+          {scanItem && <img src={scanItem} alt="Your scanned item" className="img-fluid mb-8" />}
+        </div>
+        <div className="search-results">
+          {searchResults.map((result, index) => (
+            <div key={index} className={`search-result ${selectedItems.find(item => item.source === result.source) ? 'selected' : ''}`} onClick={() => handleSelectItem(index)}>
+              <img src={result.thumbnail} alt={result.source} />
+              <div className="info">
+                <div className="title">{result.source}</div>
+                <div className="price">Price: {result.price}</div>
+                <Button variant="primary" href={result.link}>Visit Website</Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
       <div className="mt-3 text-center">
-        <Button onClick={handleConfirmSave} disabled={selectedItems.length === 0}>Save</Button>
+        <Button onClick={handleConfirmSave} disabled={selectedItems.length === 0 || saving}>Save</Button>
       </div>
       {saving && <p className="text-center">Saving items...</p>}
-    </Container>
+    </div>
   );
 };
 

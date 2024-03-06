@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
+import '../styles.css';
 
 const SavedItems = ({ initialItems = [] }) => {
   const [savedItems, setSavedItems] = useState(initialItems);
 
-  const handleDelete = (itemId) => {
-    setSavedItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+  const handleToggleSelected = (itemId) => {
+    setSavedItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === itemId ? { ...item, selected: !item.selected } : item
+      )
+    );
   };
 
-  const toggleSelected = (itemId) => {
-    const updatedItems = savedItems.map((item) => {
-      if (item.id === itemId) {
-        return { ...item, selected: !item.selected };
-      }
-      return item;
-    });
-    setSavedItems(updatedItems);
+  const handleDeleteSelected = () => {
+    setSavedItems((prevItems) => prevItems.filter((item) => !item.selected));
   };
 
   return (
@@ -23,18 +22,34 @@ const SavedItems = ({ initialItems = [] }) => {
       {savedItems.length === 0 ? (
         <p1>Oh no... there are no items saved yet 😕 </p1>
       ) : (
-        <ul>
-          {savedItems.map((item) => (
-            <li key={item.id} style={{ outline: item.selected ? '2px solid blue' : 'none' }}>
-              {item.name} - ${item.price}
-              <button onClick={() => handleDelete(item.id)}>Delete</button>
-              <button onClick={() => toggleSelected(item.id)}>Toggle Selection</button>
-            </li>
-          ))}
-        </ul>
+        <div>
+          <ul>
+            {savedItems.map((item) => (
+              <li
+                key={item.id}
+                className={`item ${item.selected ? 'selected' : ''}`}
+                onClick={() => handleToggleSelected(item.id)}
+              >
+                {item.name} - <span style={{ color: 'blue' }}>${item.price}</span>
+              </li>
+            ))}
+          </ul>
+          <button onClick={handleDeleteSelected}>Delete Selected</button>
+        </div>
       )}
     </div>
   );
 };
 
 export default SavedItems;
+
+// The SavedItems component will receive the list of saved items,
+// including their names, prices, and image URLs, 
+// from the SearchResults component. 
+// When you click on the "Save" button in the SearchResults page,
+// it triggers the handleSaveItems function, 
+// which updates the savedItems state in the App component. 
+// Then, the SavedItems component, 
+// which is rendered when you navigate to the "/SavedItems"
+// route, receives this updated list of saved items as props 
+// and displays them, including the images.

@@ -3,6 +3,7 @@ import { Container, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import '../styles.css';
 
 const SearchResults = ({ scanItem, onSaveItems }) => {
   const [selectedItems, setSelectedItems] = useState([]);
@@ -13,7 +14,6 @@ const SearchResults = ({ scanItem, onSaveItems }) => {
     const fetchSearchResults = async () => {
       if (scanItem) {
         try {
-          // Send a request to your server to fetch search results using scanItem URL
           const response = await fetch(`/items/scan?url=${encodeURIComponent(scanItem)}`);
           if (response.ok) {
             const data = await response.json();
@@ -62,15 +62,16 @@ const SearchResults = ({ scanItem, onSaveItems }) => {
         </ul>
       </nav>
       <h1>SEARCH RESULTS</h1>
-      <h3>scanItem: {scanItem}</h3>
       <Row>
-        <Col xs={12} lg={6}>
+        {/* Main scanned image */}
+        <Col xs={12} lg={6} className="text-center mb-4 mb-lg-0">
           {scanItem && (
             <img src={scanItem} alt="Your scanned item" className="img-fluid" />
           )}
         </Col>
+        {/* Search results */}
         <Col xs={12} lg={6}>
-          <Row>
+          <Row className="search-results">
             {searchResults.map((result, index) => (
               <Col key={index} xs={12} sm={6} md={4} className="mb-3" onClick={() => handleSelectItem(index)}>
                 <Card>

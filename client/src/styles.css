@@ -177,3 +177,28 @@ body {
 .box.selected {
   border: 2px solid blue;
 }
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
+.search-results {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.search-results .card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.search-results .card img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+

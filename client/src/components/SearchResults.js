@@ -28,8 +28,9 @@ const SearchResults = ({ scanItem, onSaveItems }) => {
     fetchSearchResults();
   }, [scanItem]);
 
+    // Function to handle selecting an item
   const handleSelectItem = (index) => {
-    const selectedItem = searchResults[index];
+    const selectedItem = searchResults[index]; // Getting the selected item from searchResults array
     const isSelected = selectedItems.find(item => item.source === selectedItem.source);
 
     if (isSelected) {
@@ -39,9 +40,12 @@ const SearchResults = ({ scanItem, onSaveItems }) => {
     }
   };
 
+    // Function to handle saving selected items
   const handleConfirmSave = () => {
     onSaveItems(selectedItems);
     setSaving(true);
+
+    // Simulating saving delay with setTimeout
     setTimeout(() => {
       alert('Items saved successfully!');
       setSaving(false);
@@ -64,6 +68,7 @@ const SearchResults = ({ scanItem, onSaveItems }) => {
           {scanItem && <img src={scanItem} alt="Your scanned item" className="img-fluid mb-8" />}
         </div>
         <div className="search-results">
+        {/* Mapping over searchResults array to display each search result */}
           {searchResults.map((result, index) => (
             <div key={index} className={`search-result ${selectedItems.find(item => item.source === result.source) ? 'selected' : ''}`} onClick={() => handleSelectItem(index)}>
               <img src={result.thumbnail} alt={result.source} />

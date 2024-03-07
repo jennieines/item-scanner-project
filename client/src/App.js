@@ -9,24 +9,24 @@ function App() {
   const [scanItem, setScanItem] = useState("");
   const [savedItems, setSavedItems] = useState([]);
 
-  const handleSaveItems = (items) => {
-    console.log('Saving items:', items);
-    setSavedItems(items);
+  const handleSaveItems = (items) => { // Function to handle saving items
+    console.log('Saving items:', items); // Log the items being saved
+    setSavedItems(items); // Update the saved items state
   };
 
   return (
-    <Router>
+    <Router> {/* Router component for managing navigation */}
       <div>
-        <Routes>
-          <Route
+        <Routes> 
+          <Route // Route for rendering Home component
             path="/"
             element={<Home scanItem={scanItem} setScanItem={setScanItem} />}
           />
-          <Route
+          <Route // Route for rendering SavedItems component
             path="/SavedItems"
             element={<SavedItems initialItems={savedItems} />}
           />
-          <Route
+          <Route // Route for rendering SearchResults component
             path="/SearchResults"
             element={
               <SearchResults

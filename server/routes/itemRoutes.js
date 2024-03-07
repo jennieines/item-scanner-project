@@ -31,6 +31,7 @@ router.get('/scan', async (req, res) => {
 
       if (filteredResults.length > 0) {
         const transformedResults = filteredResults.map(result => ({
+          id: result.link,
           source: result.source,
           source_logo: result.source_icon, 
           price: result.price.value,

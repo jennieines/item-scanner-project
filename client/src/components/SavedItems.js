@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
-
 import '../styles.css';
 
 const SavedItems = ({ initialItems = [] }) => {
   const [savedItems, setSavedItems] = useState(initialItems);
 
+    // Function to toggle the selected status of an item
   const handleToggleSelected = (itemId) => {
     setSavedItems((prevItems) =>
       prevItems.map((item) =>
@@ -14,6 +14,7 @@ const SavedItems = ({ initialItems = [] }) => {
     );
   };
 
+    // Function to delete selected items
   const handleDeleteSelected = () => {
     setSavedItems((prevItems) => prevItems.filter((item) => !item.selected));
   };
@@ -21,12 +22,12 @@ const SavedItems = ({ initialItems = [] }) => {
   return (
     <div>
       <h4>Saved Items</h4>
-      {savedItems.length === 0 ? (
+      {savedItems.length === 0 ? ( // Checking if there are no saved items
         <p1>Oh no... there are no items saved yet 😕 </p1>
       ) : (
         <div>
           <ul>
-            {savedItems.map((item) => (
+            {savedItems.map((item) => ( // Mapping over savedItems array to display each saved item
               <li
                 key={item.id}
                 className={`item ${item.selected ? 'selected' : ''}`}

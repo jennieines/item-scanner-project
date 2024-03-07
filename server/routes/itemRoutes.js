@@ -2,7 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 const { getJson } = require("serpapi");
-const pool = require('../database.js');
+const pool = require('../database');
 
 const serpApiKey = 'e1506cd90c3d305e5b45a8f982011f9e002db3ebc75ce7504124725d2a21ef7d';
 

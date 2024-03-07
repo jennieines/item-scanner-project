@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Button } from 'react-bootstrap';
+
 import '../styles.css';
 
 const SavedItems = ({ initialItems = [] }) => {
@@ -30,7 +32,12 @@ const SavedItems = ({ initialItems = [] }) => {
                 className={`item ${item.selected ? 'selected' : ''}`}
                 onClick={() => handleToggleSelected(item.id)}
               >
-                {item.name} - <span style={{ color: 'blue' }}>${item.price}</span>
+              <img src={item.thumbnail} alt={item.source} /> {/* Display the image */}
+                <div className="info">
+                  <div className="title" style={{ color: 'blue' }}>{item.source}</div> {/* Make the title blue */}
+                  <div className="price" style={{ color: 'blue' }}>Price: {item.price}</div> {/* Make the price blue */}
+                  <Button variant="primary" href={item.link}>Visit Website</Button>
+                </div>
               </li>
             ))}
           </ul>
